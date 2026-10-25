@@ -1,0 +1,27 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'my.tvmod.air'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId 'my.tvmod.air'
+        minSdk 26
+        targetSdk 29
+        versionCode 1
+        versionName '1.0'
+    }
+
+    sourceSets {
+        main {
+            java.srcDirs = ['src/main/java', '../common/java']
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}

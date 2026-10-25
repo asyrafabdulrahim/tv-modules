@@ -1,0 +1,30 @@
+name: Build APKs
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
+      - run: gradle assembleDebug --no-daemon
+      - run: |
+          mkdir out
+          cp prayer/build/outputs/apk/debug/prayer-debug.apk out/prayer.apk
+          cp weather/build/outputs/apk/debug/weather-debug.apk out/weather.apk
+          cp air/build/outputs/apk/debug/air-debug.apk out/air.apk
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest
+          name: Latest APKs
+          files: out/*.apk
